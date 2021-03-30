@@ -1,90 +1,79 @@
 <template>
   <div class="talk">
-    <div class="talk-left">
-      <div class="time">
-        2021.01.08 搭建项目
-      </div>
-      <div>
-        <p class="foreword">欢迎大家畅所欲言：</p>
-        <ul>
-          <li>可以是您发现文章有错别字、语句不通或者逻辑不正确的地方</li>
-          <li>可以是您对博客中某篇文章有不同见解</li>
-          <li>可以是您对博客有更好的建设性意见</li>
-          <li>可以是您的经验与感悟，或者工作中遇到的困惑</li>
-          <li>...</li>
-        </ul>
-        <p class="foreword">说明：</p>
-        <ul>
-          <li>富强、民主、文明、和谐</li>
-          <li>自由、平等、公正、法治</li>
-          <li>爱国、敬业、诚信、友善</li>
-          <li>留言过程希望大家文明用语，感谢配合</li>
-        </ul>
-      </div>
-    </div>
-    <div class="talk-right">
-      <div>
-        打赏博主
-      </div>
-      <div style="margin: 10px 10px">
-        <img src="../../assets/pay.jpg" style="width:180px;height:180px" />
-      </div>
-      <div style="margin-bottom: 6px">
-        博客资源
-      </div>
-      <div class="share-icon">
-        <div @mouseenter="overIcon('zhiUrl')" @mouseleave="outIcon('zhiUrl')">
-          <a href=""><img :src="zhiUrl"/></a>
+    <a-row :gutter="16" type="flex">
+      <a-col :span="2"></a-col>
+      <a-col :span="20" class="col-style">
+        <div class="container">
+          <div class="talk-left">
+            <div class="time">
+              2021.01.08 搭建项目
+            </div>
+            <div>
+              <p class="foreword">说明：</p>
+              <ul>
+                <li>富强、民主、文明、和谐</li>
+                <li>自由、平等、公正、法治</li>
+                <li>爱国、敬业、诚信、友善</li>
+                <li>留言过程希望大家文明用语，感谢配合</li>
+              </ul>
+            </div>
+            <!-- 留言区 -->
+            <div class="show-view-out">
+              <div class="show-view">
+                <h3>
+                  留言：
+                </h3>
+                <a-divider type="horizontal" />
+              </div>
+              <div><a-textarea placeholder="请输入留言内容" :rows="4" /></div>
+              <div class="show-view-btn">
+                <a-button>提交</a-button>
+              </div>
+            </div>
+            <!-- 留言展示区 -->
+            <div></div>
+          </div>
+          <div class="talk-right">
+            <div class="right-title">
+              <h3>公告</h3>
+            </div>
+            <div>
+              这里是孟杰的个人博客，总结自己在前端领域的所学
+              分为原创文章板块，杂谈板块，收藏板块和留言板
+              如果内容对您有所帮助，欢迎点赞评论
+            </div>
+            <div class="right-footer">
+              联系我: 1609790272@qq.com
+            </div>
+          </div>
         </div>
-        <div @mouseenter="overIcon('gitUrl')" @mouseleave="outIcon('gitUrl')">
-          <a href=""><img :src="gitUrl"/></a>
-        </div>
-        <div @mouseenter="overIcon('weiUrl')" @mouseleave="outIcon('weiUrl')">
-          <a href=""><img :src="weiUrl"/></a>
-        </div>
-      </div>
-    </div>
+      </a-col>
+      <a-col :span="2"></a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      zhiUrl: require("../../assets/zhihu.png"),
-      weiUrl: require("../../assets/weibo.png"),
-      gitUrl: require("../../assets/github.png")
-    };
+    return {};
   },
-  methods: {
-    //鼠标移入分享链接图片
-    overIcon(data) {
-      if (data == "zhiUrl") {
-        this.zhiUrl = require("../../assets/zhihuLight.png");
-      } else if (data == "gitUrl") {
-        this.gitUrl = require("../../assets/githubLight.png");
-      } else if (data == "weiUrl") {
-        this.weiUrl = require("../../assets/weiboLight.png");
-      }
-    },
-    //鼠标移出分享链接图片
-    outIcon(data) {
-      if (data == "zhiUrl") {
-        this.zhiUrl = require("../../assets/zhihu.png");
-      } else if (data == "gitUrl") {
-        this.gitUrl = require("../../assets/github.png");
-      } else if (data == "weiUrl") {
-        this.weiUrl = require("../../assets/weibo.png");
-      }
-    }
-  }
+  methods: {}
 };
 </script>
 
 <style lang="less" scoped>
 .talk {
-  padding-left: 300px;
-  padding-top: 6px;
+  //   padding-top: 6px;
+  //   display: flex;
+}
+.ant-input {
+  border: 1px solid #fff;
+}
+.ant-input:hover {
+  border: 1px solid #fff;
+}
+.container {
   display: flex;
 }
 .time {
@@ -100,23 +89,41 @@ li {
   letter-spacing: 2pt;
 }
 .talk-left {
-  width: 60%;
+  width: 750px;
 }
 .talk-right {
-  width: 40%;
-  margin-top: 32px;
-  margin-left: 10px;
+  margin: 30px;
+  padding: 0 20px;
+  width: 450px;
+  height: 200px;
+  line-height: 1.8em;
+  box-shadow: 5px 5px 20px #e4e3e3;
+  background-color: #fff;
+  .right-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .right-footer {
+    padding: 10px 20px 20px;
+    background-color: #f6f6f6;
+    margin-top: 15px;
+  }
 }
-.share-icon {
+.col-style {
   display: flex;
-  margin: 10px;
-  justify-content: space-between;
-  width: 120px;
-  margin-left: 40px;
-  img {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
+  align-content: center;
+  justify-content: center;
+}
+.show-view-out {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  .show-view {
+    margin-top: 10px;
+    padding: 10px;
+  }
+  .show-view-btn {
+    text-align: right;
+    margin: 12px;
   }
 }
 </style>

@@ -4,9 +4,17 @@
       <!-- 标签头部 -->
       <div class="nav">
         <div class="left">
-          <font>{{userName}}个人博客</font>
+          <font>{{ userName }}个人博客</font>
         </div>
         <div class="right">
+          <!-- <a-menu v-model="current" mode="horizontal" @click="changeTitle">
+            <a-menu-item key="1"> 首页</a-menu-item>
+            <a-menu-item key="2"> 文章</a-menu-item>
+            <a-menu-item key="3"> 标签</a-menu-item>
+            <a-menu-item key="4"> 留言 </a-menu-item>
+            <a-menu-item key="5"> 时间戳 </a-menu-item>
+            <a-menu-item key="6"> 关于 </a-menu-item>
+          </a-menu> -->
           <div>
             <router-link to="/index" style="color:#fff">
               <span @click="changeTitle('1')" class="lable">首页</span>
@@ -56,19 +64,20 @@
 export default {
   name: "Home",
   components: {},
-  mounted () {
-      this.userName = localStorage.getItem('user')
-      this.title = this.userName
+  mounted() {
+    this.userName = localStorage.getItem("user");
+    this.title = this.userName;
   },
   data() {
     return {
       title: "Echo", //标题
-      subTitle: "Keep on going never give up" ,//子标题
-      userName: "",
+      subTitle: "Keep on going never give up", //子标题
+      userName: ""
     };
   },
   methods: {
-    changeTitle(index) {
+    changeTitle(e) {
+      let index = e.key;
       if (index == "1") {
         this.title = this.userName;
         this.subTitle = "Keep on going never give up";
