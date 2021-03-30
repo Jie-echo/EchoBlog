@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index" id="handelDocID">
     <div>
       <a-row :gutter="16">
         <a-col :span="4">
@@ -177,6 +177,9 @@
     <div>
       <Footer />
     </div>
+    <div class="go-top">
+      <a-back-top visibilityHeight="{300}" />
+    </div>
   </div>
 </template>
 <script>
@@ -220,7 +223,9 @@ export default {
     //跳转写作页面
     goWrite() {
       this.$router.push({ path: "/wirteArticle" });
-    }
+    },
+    //搜索文章
+    onSearch() {}
   }
 };
 </script>
@@ -364,6 +369,11 @@ export default {
   }
   .foot-text {
     color: #999;
+  }
+  .go-top {
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
   }
 }
 </style>

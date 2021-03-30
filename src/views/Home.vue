@@ -7,15 +7,14 @@
           <font>{{ userName }}个人博客</font>
         </div>
         <div class="right">
-          <!-- <a-menu v-model="current" mode="horizontal" @click="changeTitle">
-            <a-menu-item key="1"> 首页</a-menu-item>
-            <a-menu-item key="2"> 文章</a-menu-item>
-            <a-menu-item key="3"> 标签</a-menu-item>
-            <a-menu-item key="4"> 留言 </a-menu-item>
-            <a-menu-item key="5"> 时间戳 </a-menu-item>
-            <a-menu-item key="6"> 关于 </a-menu-item>
-          </a-menu> -->
-          <div>
+          <a-menu v-model="current" mode="horizontal" @click="changeTitle">
+            <a-menu-item v-for="item in menuPath" :key="item.path">
+              <router-link :to="item.path" style="color:#fff">
+                <span class="lable">{{ item.title }}</span>
+              </router-link>
+            </a-menu-item>
+          </a-menu>
+          <!-- <div>
             <router-link to="/index" style="color:#fff">
               <span @click="changeTitle('1')" class="lable">首页</span>
             </router-link>
@@ -46,7 +45,7 @@
             <router-link to="/about">
               <span @click="changeTitle('5')" class="lable">关于</span>
             </router-link>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="nav-content">
@@ -66,45 +65,99 @@ export default {
   components: {},
   mounted() {
     this.userName = localStorage.getItem("user");
-    this.title = this.userName;
+    let pathSrc = window.location.pathname;
+
+    if (pathSrc == "/index") {
+      this.title = this.userName;
+    }
+    this.current = [pathSrc];
+    this.changeText(pathSrc);
   },
   data() {
     return {
       title: "Echo", //标题
       subTitle: "Keep on going never give up", //子标题
-      userName: ""
+      userName: "",
+      current: ["1"],
+      menuPath: [
+        {
+          title: "首页",
+          path: "/index",
+          id: "1"
+        },
+        {
+          title: "文章",
+          path: "/article",
+          id: "2"
+        },
+        {
+          title: "标签",
+          path: "/lable",
+          id: "3"
+        },
+        {
+          title: "留言",
+          path: "/talk",
+          id: "4"
+        },
+        {
+          title: "时间戳",
+          path: "/time",
+          id: "5"
+        },
+        {
+          title: "关于",
+          path: "/about",
+          id: "6"
+        }
+      ]
     };
   },
   methods: {
     changeTitle(e) {
+      console.log(e);
       let index = e.key;
-      if (index == "1") {
+      this.current = index;
+      this.changeText(index);
+    },
+
+    changeText(index) {
+      if (index == "/index") {
         this.title = this.userName;
         this.subTitle = "Keep on going never give up";
-      } else if (index == "2") {
+      } else if (index == "/article") {
         this.title = "Article";
         this.subTitle = "Here is the information you need";
-      } else if (index == "3") {
+      } else if (index == "/lable") {
         this.title = "Category";
         this.subTitle = "Sow nothing, reap nothing";
-      } else if (index == "4") {
-        this.title = "Time";
-        this.subTitle = "Record bit by bit";
-      } else if (index == "5") {
-        this.title = "About";
-        this.subTitle = "All things in their being are good for something";
-      } else if (index == "6") {
+      } else if (index == "/talk") {
         this.title = "Talk";
         this.subTitle = "技术交流区";
+      } else if (index == "/time") {
+        this.title = "Time";
+        this.subTitle = "Record bit by bit";
+      } else if (index == "/about") {
+        this.title = "About";
+        this.subTitle = "All things in their being are good for something";
       }
     }
   }
 };
 </script>
 <style scoped lang="less">
+.ant-menu {
+  background-color: #363636;
+}
+.ant-menu-item {
+  border-bottom: 2px solid #363636 !important;
+}
+.ant-menu-item-selected {
+  border-bottom: 2px solid #339999 !important;
+}
 .head {
   width: 100%;
-  height: 430px;
+  height: 360px;
   color: #fff;
   background-color: #363636;
 }
