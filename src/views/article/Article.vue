@@ -190,6 +190,10 @@ export default {
       var m = date.getMinutes();
       m = m < 10 ? "0" + m : m;
       return year + "-" + month + "-" + day + " " + h + ":" + m;
+    },
+    //跳转写作页面
+    goWrite() {
+      this.$router.push({ path: "/wirteArticle" });
     }
   }
 };

@@ -14,38 +14,6 @@
               </router-link>
             </a-menu-item>
           </a-menu>
-          <!-- <div>
-            <router-link to="/index" style="color:#fff">
-              <span @click="changeTitle('1')" class="lable">首页</span>
-            </router-link>
-          </div>
-          <div>
-            <router-link to="/article">
-              <span @click="changeTitle('2')" class="lable">
-                文章
-              </span>
-            </router-link>
-          </div>
-          <div>
-            <router-link to="/lable">
-              <span @click="changeTitle('3')" class="lable">标签</span>
-            </router-link>
-          </div>
-          <div>
-            <router-link to="/talk">
-              <span @click="changeTitle('6')" class="lable">留言</span>
-            </router-link>
-          </div>
-          <div>
-            <router-link to="/time">
-              <span @click="changeTitle('4')" class="lable">时间戳</span>
-            </router-link>
-          </div>
-          <div>
-            <router-link to="/about">
-              <span @click="changeTitle('5')" class="lable">关于</span>
-            </router-link>
-          </div> -->
         </div>
       </div>
       <div class="nav-content">
@@ -78,7 +46,7 @@ export default {
       title: "Echo", //标题
       subTitle: "Keep on going never give up", //子标题
       userName: "",
-      current: ["1"],
+      current: ["/index"],
       menuPath: [
         {
           title: "首页",
@@ -122,24 +90,31 @@ export default {
     },
 
     changeText(index) {
-      if (index == "/index") {
-        this.title = this.userName;
-        this.subTitle = "Keep on going never give up";
-      } else if (index == "/article") {
-        this.title = "Article";
-        this.subTitle = "Here is the information you need";
-      } else if (index == "/lable") {
-        this.title = "Category";
-        this.subTitle = "Sow nothing, reap nothing";
-      } else if (index == "/talk") {
-        this.title = "Talk";
-        this.subTitle = "技术交流区";
-      } else if (index == "/time") {
-        this.title = "Time";
-        this.subTitle = "Record bit by bit";
-      } else if (index == "/about") {
-        this.title = "About";
-        this.subTitle = "All things in their being are good for something";
+      switch (index) {
+        case "/index":
+          this.title = this.userName;
+          this.subTitle = "Keep on going never give up";
+          break;
+        case "/article":
+          this.title = "Article";
+          this.subTitle = "Here is the information you need";
+          break;
+        case "/lable":
+          this.title = "Category";
+          this.subTitle = "Sow nothing, reap nothing";
+          break;
+        case "/talk":
+          this.title = "Talk";
+          this.subTitle = "技术交流区";
+          break;
+        case "/time":
+          this.title = "Time";
+          this.subTitle = "Record bit by bit";
+          break;
+        case "/about":
+          this.title = "About";
+          this.subTitle = "All things in their being are good for something";
+          break;
       }
     }
   }
@@ -183,7 +158,7 @@ export default {
   }
 }
 .nav-content {
-  margin-top: 120px;
+  margin-top: 60px;
   font-size: 72px;
   font-weight: bold;
   text-align: center;

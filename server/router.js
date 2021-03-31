@@ -10,5 +10,7 @@ route
 .get('/getArticleList',methods.getArticleList)
 .get('/getArticleListById',methods.getArticleListById)
 .get('/getArticleDetail',methods.getArticleDetail)
+.get('/getRemarkList',methods.getRemarkList)
+.post('/postCreateRemark',methods.postCreateRemark)
 
 module.exports = route

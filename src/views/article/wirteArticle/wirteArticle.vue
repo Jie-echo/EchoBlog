@@ -152,7 +152,6 @@ export default {
           id
         }
       }).then(res => {
-        console.log(res);
         if (res.data.code == 200) {
           let obj = res.data.data[0];
           this.title = obj.title; //文章标题

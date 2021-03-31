@@ -67,4 +67,27 @@ module.exports = {
 			callback(data);
 		})
   },
+
+  //留言查询
+  getRemarkSql:function(callback, data){
+      //SELECT r.*, u.userName from review r JOIN user u ON r.user_id = u.id
+      var sql = "select review.*,userName from review LEFT JOIN user ON user.id=review.user_id where user.id=review.user_id";
+      console.log(sql)
+      connection.query(sql,function(err,res){
+        var data = res;
+        callback(data);
+    })
+  },
+
+  //创建留言
+  postCreateRemarkSql:function(callback, data){
+    let sql = "insert into review( user_id, review, add_date) values (" + data.user_id +",'" + data.review + "','" + data.add_date +"')"
+    connection.query(sql,function(error,result){
+        if(error){
+          console.log("操作错误");
+          return;
+        }
+        callback(result)
+      })
+  }
 }

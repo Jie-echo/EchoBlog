@@ -178,7 +178,7 @@
       <Footer />
     </div>
     <div class="go-top">
-      <a-back-top visibilityHeight="{300}" />
+      <a-back-top />
     </div>
   </div>
 </template>

@@ -25,9 +25,15 @@
                 </h3>
                 <a-divider type="horizontal" />
               </div>
-              <div><a-textarea placeholder="请输入留言内容" :rows="4" /></div>
+              <div>
+                <a-textarea
+                  placeholder="请输入留言内容"
+                  :rows="4"
+                  v-model="remark"
+                />
+              </div>
               <div class="show-view-btn">
-                <a-button>提交</a-button>
+                <a-button @click="handleSub">提交</a-button>
               </div>
             </div>
             <!-- 留言展示区 -->
@@ -55,10 +61,44 @@
 
 <script>
 export default {
-  data() {
-    return {};
+  mounted() {
+    let user_id = localStorage.getItem("id");
+    this.user_id = user_id;
+    this.getReviewList();
   },
-  methods: {}
+  data() {
+    return {
+      remark: "", //留言内容
+      remarkList: [], //回复列表
+      user_id: "" //存储用户id
+    };
+  },
+  methods: {
+    //查询留言
+    getReviewList() {
+      this.$axios({
+        method: "get",
+        url: "/api/getRemarkList",
+        params: {}
+      }).then(res => {
+        this.remarkList = res.data.data ? res.data.data : [];
+      });
+    },
+    //提交留言
+    handleSub() {
+      let date = new Date();
+      let params = {
+        user_id: this.user_id,
+        review: this.remark,
+        add_date: date.toLocaleDateString()
+      };
+      this.$axios({
+        method: "post",
+        url: "/api/postCreateRemark",
+        data: params
+      }).then(res => {});
+    }
+  }
 };
 </script>
 

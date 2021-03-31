@@ -42,15 +42,16 @@ module.exports = {
   },
   //上传图片接口
   upload(req,res){
-    var form = new formidable.IncomingForm()
-    // parse 方法，自动实现文件上传
-    form.parse(req, (err, fields, files) => {
-        // fs.rename(files.avatar.path, '/' + files.avatar.name,(err)=>{
-        //     console.log(err) 
-        //     res.end()
-        // })
-        res.end()
-    })
+    // var form = new formidable.IncomingForm()
+    // // parse 方法，自动实现文件上传
+    // form.parse(req, (err, fields, files) => {
+    //     // fs.rename(files.avatar.path, '/' + files.avatar.name,(err)=>{
+    //     //     console.log(err) 
+    //     //     res.end()
+    //     // })
+    //     res.end()
+    // })
+    res.end()
   },
   //创建文章接口
   createArticle(req,res){
@@ -120,5 +121,39 @@ module.exports = {
           })
         }
     },data)
+  },
+  //留言查询
+  getRemarkList(req,res){
+      let data = req.query
+      db.getRemarkSql(function(data){
+        if(data.length !== 0){
+            res.json({
+              code: 200,
+              data: data
+            })
+          }else{
+            res.json({
+              code: 500,
+              msg:'查询留言失败'
+            })
+          }
+      },data)
+  },
+  //创建留言
+  postCreateRemark(req,res){
+      let data = req.body
+      db.postCreateRemarkSql(function(data){
+        if(data.affectedRows){
+            res.json({
+              msg: '留言成功',
+              code: 200
+            })
+          }else{
+            res.json({
+              msg:"留言失败",
+              code: 500
+            })
+          }
+      },data)
   }
 }
