@@ -188,22 +188,28 @@ export default {
   components: { Footer },
   mounted() {
     let user_id = localStorage.getItem("id");
-    this.$axios({
-      method: "get",
-      url: "/api/getArticleListById",
-      params: { user_id }
-    }).then(res => {
-      this.articleList = res.data.data ? res.data.data : [];
-    });
+    this.user_id = user_id;
+    this.getArticleList();
   },
   data() {
     return {
-      articleList: [] //文章列表
+      articleList: [], //文章列表
+      user_id: "", //用户id
+      query: "" //搜索关键字
     };
   },
   methods: {
     toArticleDetail(id) {
       this.$router.push({ name: "articleDetail", query: { id: id } });
+    },
+    getArticleList() {
+      this.$axios({
+        method: "get",
+        url: "/api/getArticleListById",
+        params: { user_id: this.user_id }
+      }).then(res => {
+        this.articleList = res.data.data ? res.data.data : [];
+      });
     },
     //日期格式化
     formatTime: function(val) {

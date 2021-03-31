@@ -44,7 +44,11 @@ module.exports = {
 
   //查询文章
   getArtListSql:function(callback,data){
-        let sql = "select * from article";
+      if(data){
+        let sql = "select * from article where title like '% " + data.query + "%' ORDER BY add_time DESC"
+      }else{
+        let sql = "select * from article ORDER BY add_time DESC";
+      }
         console.log(sql)
 	    connection.query(sql,function(err,res){
 			var data = res;
@@ -52,7 +56,7 @@ module.exports = {
 		})
   },
   getArtListByIdSql:function(callback,data){
-      let sql = "select * from article where user_id = " + data.user_id ;
+      let sql = "select * from article where user_id = " + data.user_id + "ORDER BY add_time DESC";
       connection.query(sql,function(err,res){
           var data = res;
           callback(data);
@@ -71,7 +75,7 @@ module.exports = {
   //留言查询
   getRemarkSql:function(callback, data){
       //SELECT r.*, u.userName from review r JOIN user u ON r.user_id = u.id
-      var sql = "select review.*,userName from review LEFT JOIN user ON user.id=review.user_id where user.id=review.user_id";
+      var sql = "select review.*,userName from review LEFT JOIN user ON user.id=review.user_id where user.id=review.user_id ORDER BY add_date DESC";
       console.log(sql)
       connection.query(sql,function(err,res){
         var data = res;
@@ -82,6 +86,7 @@ module.exports = {
   //创建留言
   postCreateRemarkSql:function(callback, data){
     let sql = "insert into review( user_id, review, add_date) values (" + data.user_id +",'" + data.review + "','" + data.add_date +"')"
+    console.log(sql)
     connection.query(sql,function(error,result){
         if(error){
           console.log("操作错误");

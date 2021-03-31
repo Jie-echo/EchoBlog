@@ -36,6 +36,36 @@
                 <a-button @click="handleSub">提交</a-button>
               </div>
             </div>
+            <!-- 留言列表 -->
+            <div>
+              <div
+                v-for="item in remarkList"
+                :key="item.id"
+                class="remark-list"
+              >
+                <div>
+                  <img
+                    :src="
+                      require('../../assets/avatar/Avatar' +
+                        item.avatarIndex +
+                        '.png')
+                    "
+                    alt=""
+                    width="50"
+                    height="50"
+                  />
+                </div>
+                <div class="remark-list-right">
+                  <div class="remark-list-right-top">
+                    <div>{{ item.userName }}</div>
+                    <div>{{ item.add_date }}</div>
+                  </div>
+                  <div>
+                    {{ item.review }}
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- 留言展示区 -->
             <div></div>
           </div>
@@ -49,7 +79,16 @@
               如果内容对您有所帮助，欢迎点赞评论
             </div>
             <div class="right-footer">
-              联系我: 1609790272@qq.com
+              <div>联系我: 1609790272@qq.com</div>
+              <div
+                @mouseenter="overIcon('gitUrl')"
+                @mouseleave="outIcon('gitUrl')"
+                class="share-icon"
+              >
+                <a href="https://github.com/1609790272/EchoBlog" target="_blank"
+                  ><img :src="gitUrl"
+                /></a>
+              </div>
             </div>
           </div>
         </div>
@@ -70,7 +109,8 @@ export default {
     return {
       remark: "", //留言内容
       remarkList: [], //回复列表
-      user_id: "" //存储用户id
+      user_id: "", //存储用户id
+      gitUrl: require("../../assets/github.png")
     };
   },
   methods: {
@@ -82,21 +122,56 @@ export default {
         params: {}
       }).then(res => {
         this.remarkList = res.data.data ? res.data.data : [];
+        this.handleRandomUserAvaer();
       });
+    },
+    //随机分配用户头像
+    handleRandomUserAvaer() {
+      this.remarkList.forEach(item => {
+        item.avatarIndex = Math.floor(Math.random() * 8);
+        item.add_date = this.formatTime(item.add_date);
+      });
+    },
+    //日期格式化
+    formatTime: function(val) {
+      if (!val) return "- -";
+      var date = new Date(val);
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      var day = date.getDate();
+      day = day < 10 ? "0" + day : day;
+      var h = date.getHours();
+      h = h < 10 ? "0" + h : h;
+      var m = date.getMinutes();
+      m = m < 10 ? "0" + m : m;
+      return year + "-" + month + "-" + day + " " + h + ":" + m;
     },
     //提交留言
     handleSub() {
       let date = new Date();
+      let dateTime = date.toLocaleString().replace(/下午/, " ");
       let params = {
         user_id: this.user_id,
         review: this.remark,
-        add_date: date.toLocaleDateString()
+        add_date: dateTime
       };
       this.$axios({
         method: "post",
         url: "/api/postCreateRemark",
         data: params
-      }).then(res => {});
+      }).then(res => {
+        this.remark = "";
+        this.getReviewList();
+      });
+    },
+    //鼠标移入分享链接图片
+    overIcon() {
+      this.gitUrl = require("../../assets/githubLight.png");
+    },
+    //鼠标移出分享链接图片
+    outIcon() {
+      this.gitUrl = require("../../assets/github.png");
     }
   }
 };
@@ -135,7 +210,7 @@ li {
   margin: 30px;
   padding: 0 20px;
   width: 450px;
-  height: 200px;
+  height: 230px;
   line-height: 1.8em;
   box-shadow: 5px 5px 20px #e4e3e3;
   background-color: #fff;
@@ -164,6 +239,38 @@ li {
   .show-view-btn {
     text-align: right;
     margin: 12px;
+  }
+}
+.remark-list {
+  display: flex;
+  margin-top: 20px;
+  width: 730px;
+  border-bottom: 1px solid #e4e3e3;
+  background-color: #fff;
+  &:last-child {
+    border-bottom: 1px solid #fff;
+    margin-bottom: 20px;
+  }
+  img {
+    margin: 10px;
+  }
+}
+.remark-list-right {
+  display: flex;
+  width: 730px;
+  flex-direction: column;
+}
+.remark-list-right-top {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0 5px 0;
+}
+.share-icon {
+  margin: 6px 0 0 50px;
+  img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
   }
 }
 </style>

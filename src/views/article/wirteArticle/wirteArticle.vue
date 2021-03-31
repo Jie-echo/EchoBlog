@@ -169,6 +169,7 @@ export default {
       let author = localStorage.getItem("user");
       let user_id = localStorage.getItem("id");
       let date = new Date();
+      let dateTime = date.toLocaleString().replace(/下午/, " ");
       if (!this.title) {
         this.$message.destroy();
         this.$message.error("请输入文章标题");
@@ -194,7 +195,7 @@ export default {
           remark: this.remark,
           category: this.clssfiy,
           user_id: user_id,
-          add_time: date.toLocaleDateString(),
+          add_time: dateTime,
           content: this.editorContent.txt.html()
         }
       }).then(res => {

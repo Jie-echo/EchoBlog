@@ -31,6 +31,7 @@
                 placeholder="Password"
                 style="width:280px"
                 size="large"
+                @pressEnter="login"
               >
                 <a-icon
                   slot="prefix"
