@@ -44,11 +44,8 @@ module.exports = {
 
   //查询文章
   getArtListSql:function(callback,data){
-      if(data){
-        let sql = "select * from article where title like '% " + data.query + "%' ORDER BY add_time DESC"
-      }else{
-        let sql = "select * from article ORDER BY add_time DESC";
-      }
+        let wh = data.query ? data.query : ""
+        var sql = "select * from article where title like '%" + wh + "%' ORDER BY add_time DESC"
         console.log(sql)
 	    connection.query(sql,function(err,res){
 			var data = res;
@@ -56,7 +53,9 @@ module.exports = {
 		})
   },
   getArtListByIdSql:function(callback,data){
-      let sql = "select * from article where user_id = " + data.user_id + "ORDER BY add_time DESC";
+      let wh = data.query ? data.query : ""
+      let sql = "select * from article where user_id = " + data.user_id + " and title like '%" + wh + "%' ORDER BY add_time DESC";
+      console.log(sql)
       connection.query(sql,function(err,res){
           var data = res;
           callback(data);

@@ -1,7 +1,16 @@
 <template>
   <div class="index">
     <a-row :gutter="16">
-      <a-col :span="2"></a-col>
+      <a-col :span="3">
+        <div class="left">
+          <a-input-search
+            placeholder="搜索文章"
+            style="width: 160px"
+            @search="onSearch"
+            v-model="query"
+          />
+        </div>
+      </a-col>
       <a-col :span="20" class="col-width">
         <div class="container-out">
           <div class="layout-flex-col">
@@ -17,7 +26,7 @@
                       <div class="title-text" @click="toArticleDetail(item.id)">
                         {{ item.title }}
                       </div>
-                      <div class="remark-text">{{ item.ramark }}</div>
+                      <div class="remark-text">{{ item.remark }}</div>
                     </div>
                     <div class="content-img">
                       <img
@@ -152,27 +161,36 @@
           </div>
         </div>
       </a-col>
-      <a-col :span="2"></a-col>
+      <a-col :span="1"></a-col>
     </a-row>
   </div>
 </template>
 <script>
 export default {
   mounted() {
-    this.$axios({
-      method: "get",
-      url: "/api/getArticleList",
-      params: {}
-    }).then(res => {
-      this.articleList = res.data.data ? res.data.data : [];
-    });
+    this.getArticleList();
   },
   data() {
     return {
-      articleList: [] //文章列表
+      articleList: [], //文章列表
+      query: "" // 模糊搜索
     };
   },
   methods: {
+    getArticleList() {
+      this.$axios({
+        method: "get",
+        url: "/api/getArticleList",
+        params: {
+          query: this.query
+        }
+      }).then(res => {
+        this.articleList = res.data.data ? res.data.data : [];
+      });
+    },
+    onSearch() {
+      this.getArticleList();
+    },
     toArticleDetail(id) {
       this.$router.push({ name: "articleDetail", query: { id: id } });
     },
@@ -206,6 +224,9 @@ export default {
 .col-width {
   //min-width: 1100px;
   margin-top: 18px;
+}
+.left {
+  margin: 18px 0 0 80px;
 }
 .content:hover {
   // border: 1px solid darkcyan;

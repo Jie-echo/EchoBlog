@@ -14,6 +14,7 @@
                 placeholder="搜索文章"
                 style="width: 160px"
                 @search="onSearch"
+                v-model="query"
               />
             </div>
           </div>
@@ -36,7 +37,7 @@
                         >
                           {{ item.title }}
                         </div>
-                        <div class="remark-text">{{ item.ramark }}</div>
+                        <div class="remark-text">{{ item.remark }}</div>
                       </div>
                       <div class="content-img">
                         <img
@@ -206,7 +207,10 @@ export default {
       this.$axios({
         method: "get",
         url: "/api/getArticleListById",
-        params: { user_id: this.user_id }
+        params: {
+          user_id: this.user_id,
+          query: this.query
+        }
       }).then(res => {
         this.articleList = res.data.data ? res.data.data : [];
       });
@@ -231,7 +235,9 @@ export default {
       this.$router.push({ path: "/wirteArticle" });
     },
     //搜索文章
-    onSearch() {}
+    onSearch() {
+      this.getArticleList();
+    }
   }
 };
 </script>

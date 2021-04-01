@@ -37,10 +37,14 @@
       </div>
       <div class="share-icon">
         <div @mouseenter="overIcon('zhiUrl')" @mouseleave="outIcon('zhiUrl')">
-          <a href=""><img :src="zhiUrl"/></a>
+          <a href="https://www.zhihu.com/people/meng-96-26" target="_blank"
+            ><img :src="zhiUrl"
+          /></a>
         </div>
         <div @mouseenter="overIcon('gitUrl')" @mouseleave="outIcon('gitUrl')">
-          <a href=""><img :src="gitUrl"/></a>
+          <a href="https://github.com/1609790272/EchoBlog" target="_blank"
+            ><img :src="gitUrl"
+          /></a>
         </div>
         <div @mouseenter="overIcon('weiUrl')" @mouseleave="outIcon('weiUrl')">
           <a href=""><img :src="weiUrl"/></a>
