@@ -75,19 +75,28 @@
             </div>
             <div>
               这里是孟杰的个人博客，总结自己在前端领域的所学
-              分为原创文章板块，杂谈板块，收藏板块和留言板
-              如果内容对您有所帮助，欢迎点赞评论
+              分为原创文章板块，共享文章板块，标签导航板块和留言板
+              如果您对该系统由更好的见解，请留言，我会根据您的建议进行优化。
             </div>
             <div class="right-footer">
               <div>联系我: 1609790272@qq.com</div>
-              <div
-                @mouseenter="overIcon('gitUrl')"
-                @mouseleave="outIcon('gitUrl')"
-                class="share-icon"
-              >
-                <a href="https://github.com/1609790272/EchoBlog" target="_blank"
+              <div class="share-icon">
+                <a
+                  @mouseenter="overIcon('gitUrl')"
+                  @mouseleave="outIcon('gitUrl')"
+                  href="https://github.com/1609790272/EchoBlog"
+                  target="_blank"
                   ><img :src="gitUrl"
                 /></a>
+                <a
+                  href="https://juejin.cn/user/2603249346296158"
+                  target="_blank"
+                >
+                  <img
+                    src="//sf3-scmcdn2-tos.pstatp.com/xitu_juejin_web/img/logo.a7995ad.svg"
+                    alt=""
+                  />
+                </a>
               </div>
             </div>
           </div>
@@ -271,6 +280,9 @@ li {
     width: 25px;
     height: 25px;
     cursor: pointer;
+  }
+  a:last-child {
+    margin-left: 20px;
   }
 }
 </style>

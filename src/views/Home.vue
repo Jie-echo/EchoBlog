@@ -15,6 +15,24 @@
             </a-menu-item>
           </a-menu>
         </div>
+        <div class="drop-out" @click="dropOut">
+          <svg
+            t="1617289549919"
+            class="icon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="2037"
+            width="30"
+            height="30"
+          >
+            <path
+              d="M467.8656 453.632a48.725333 48.725333 0 0 0 88.098133 0s33.262933-70.2464 71.0144-150.357333c34.338133-71.867733 71.918933-153.088 93.4912-197.632a35.9424 35.9424 0 0 1 50.875734-15.803734c193.877333 116.445867 286.225067 347.8016 225.757866 565.589334C936.635733 873.2672 738.2016 1024 512 1024S87.381333 873.250133 26.897067 655.445333C-33.570133 437.640533 58.7776 206.2848 252.654933 89.838933a35.976533 35.976533 0 0 1 50.688 15.803734l93.4912 197.632 71.031467 150.357333z m23.722667-165.2736l-47.445334-192.238933A81.527467 81.527467 0 0 1 467.848533 16.725333a66.389333 66.389333 0 0 1 88.098134 0 81.527467 81.527467 0 0 1 23.722666 79.394134l-47.445333 192.238933a21.4016 21.4016 0 0 1-40.6528 0z"
+              fill="#00A99D"
+              p-id="2038"
+            ></path>
+          </svg>
+        </div>
       </div>
       <div class="nav-content">
         {{ title }}
@@ -68,11 +86,11 @@ export default {
           path: "/talk",
           id: "4"
         },
-        {
-          title: "时间戳",
-          path: "/time",
-          id: "5"
-        },
+        // {
+        //   title: "时间戳",
+        //   path: "/time",
+        //   id: "5"
+        // },
         {
           title: "关于",
           path: "/about",
@@ -105,17 +123,24 @@ export default {
           break;
         case "/talk":
           this.title = "Talk";
-          this.subTitle = "技术交流区";
+          this.subTitle = "Say Something";
           break;
-        case "/time":
-          this.title = "Time";
-          this.subTitle = "Record bit by bit";
-          break;
+        // case "/time":
+        //   this.title = "Time";
+        //   this.subTitle = "Record bit by bit";
+        //   break;
         case "/about":
           this.title = "About";
           this.subTitle = "All things in their being are good for something";
           break;
       }
+    },
+
+    //退出登录
+    dropOut() {
+      window.localStorage.removeItem("user");
+      window.localStorage.removeItem("id");
+      this.$router.push({ name: "login" });
     }
   }
 };
@@ -148,10 +173,14 @@ export default {
   }
   .right {
     display: flex;
-    width: 35%;
+    width: 30%;
     min-width: 422px;
     font-size: 14px;
     font-weight: bold;
+  }
+  .drop-out {
+    width: 30px;
+    cursor: pointer;
   }
   div {
     margin-right: 40px;

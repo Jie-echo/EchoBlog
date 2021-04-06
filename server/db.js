@@ -1,3 +1,4 @@
+const { query } = require('express');
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -69,6 +70,16 @@ module.exports = {
 			var data = res;
 			callback(data);
 		})
+  },
+  //根据id删除文章
+  postDelArticleSql:function(callback,data){
+      console.log(data)
+    var sql = "delete from article where id = " + data.articleId;
+    console.log(sql)
+    connection.query(sql,function(err,res){
+        var data = res;
+        callback(data);
+    })
   },
 
   //留言查询

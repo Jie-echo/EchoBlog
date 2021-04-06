@@ -27,7 +27,7 @@
     </div>
     <div class="talk-right">
       <div>
-        打赏博主
+        加V
       </div>
       <div style="margin: 10px 10px">
         <img src="../../assets/pay.jpg" style="width:180px;height:180px" />

@@ -25,8 +25,20 @@
         </div>
       </a-col>
       <a-col :span="4">
-        <div class="edit" @click="toEdit" v-if="showEdit">
-          编辑
+        <div>
+          <div class="edit" @click="toEdit" v-if="showEdit">
+            编辑
+          </div>
+          <div class="edit del" v-if="showEdit">
+            <a-popconfirm
+              title="确定要删除此文章?"
+              ok-text="Yes"
+              cancel-text="No"
+              @confirm="handleDel"
+            >
+              删除</a-popconfirm
+            >
+          </div>
         </div>
       </a-col>
     </a-row>
@@ -37,12 +49,14 @@
 export default {
   mounted() {
     let id = this.$route.query.id;
+    this.articleId = id;
     this.getarticleDetail(id);
   },
   data() {
     return {
       articleObj: {}, //文章内容
-      showEdit: false //是否能够对当前文章进行编辑
+      showEdit: false, //是否能够对当前文章进行编辑
+      articleId: ""
     };
   },
   methods: {
@@ -75,6 +89,23 @@ export default {
       this.$router.push({
         path: "/wirteArticle",
         query: { id: this.articleObj.id }
+      });
+    },
+    handleDel() {
+      this.$axios({
+        method: "post",
+        url: "/api/postDelArticleById",
+        data: {
+          articleId: this.articleId
+        }
+      }).then(res => {
+        if (res.data.code == 200) {
+          this.$message.success("删除成功");
+          this.goBack();
+        } else {
+          this.$message.error("删除失败");
+          this.goBack();
+        }
       });
     },
     //日期格式化
@@ -157,5 +188,8 @@ export default {
   font-weight: bold;
   margin-top: 40px;
   cursor: pointer;
+}
+.del {
+  color: lightpink;
 }
 </style>

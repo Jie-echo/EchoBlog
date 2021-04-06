@@ -122,6 +122,23 @@ module.exports = {
         }
     },data)
   },
+  //删除文章
+  postDelArticleById(req,res){
+    let data = req.body;
+    db.postDelArticleSql(function(data){
+        if(data.affectedRows){
+            res.json({
+              msg: '删除成功',
+              code: 200
+            })
+          }else{
+            res.json({
+              msg:"删除失败",
+              code: 500
+            })
+          }
+      },data)
+  },
   //留言查询
   getRemarkList(req,res){
       let data = req.query
