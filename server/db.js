@@ -90,7 +90,7 @@ module.exports = {
       connection.query(sql,function(err,res){
         var data = res;
         callback(data);
-    })
+      })
   },
 
   //创建留言
@@ -103,6 +103,15 @@ module.exports = {
           return;
         }
         callback(result)
+    })
+  },
+  //查询标签列表
+  getLableListSql:function(callback, data){
+      let sql = "select * from classification"
+      console.log(sql)
+      connection.query(sql,function(err,res){
+        var data = res;
+        callback(data);
       })
   }
 }

@@ -172,5 +172,22 @@ module.exports = {
             })
           }
       },data)
+  },
+  //查询标签列表
+  getLableList(req,res){
+      let data = req.query
+      db.getLableListSql(function(data){
+        if(data.length !== 0){
+            res.json({
+              code: 200,
+              data: data
+            })
+          }else{
+            res.json({
+              code: 500,
+              msg:'查询标签失败'
+            })
+          }
+      },data)
   }
 }

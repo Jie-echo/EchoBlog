@@ -90,8 +90,7 @@ export default {
 
 <style lang="less" scoped>
 .about {
-  padding-left: 300px;
-  padding-top: 6px;
+  padding: 6px 0 50px 300px;
   display: flex;
 }
 .time {

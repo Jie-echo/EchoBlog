@@ -13,5 +13,6 @@ route
 .get('/getRemarkList',methods.getRemarkList)
 .post('/postCreateRemark',methods.postCreateRemark)
 .post('/postDelArticleById',methods.postDelArticleById)
+.get('/getLableList',methods.getLableList)
 
 module.exports = route
