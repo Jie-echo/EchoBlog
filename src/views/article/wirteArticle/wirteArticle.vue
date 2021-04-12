@@ -74,17 +74,12 @@
                   style="width: 120px"
                   @change="handleChangeSelect"
                 >
-                  <a-select-option :value="1">
-                    JavaScript
-                  </a-select-option>
-                  <a-select-option :value="2">
-                    React
-                  </a-select-option>
-                  <a-select-option :value="3">
-                    Vue
-                  </a-select-option>
-                  <a-select-option :value="4">
-                    CSS
+                  <a-select-option
+                    :value="item.id"
+                    v-for="item in defaultLableList"
+                    :key="item.id"
+                  >
+                    {{ item.category_name }}
                   </a-select-option>
                 </a-select>
               </div>
@@ -125,7 +120,9 @@ export default {
     this.editorContent.txt.html();
     if (this.$route.query.id) {
       this.getarticleDetail(this.$route.query.id);
+      this.isUpdate = true;
     }
+    this.getLableList();
   },
   data() {
     return {
@@ -135,7 +132,9 @@ export default {
       clssfiy: 1, //分类
       imageUrl: "", //上传图片地址
       imgLoading: false, //图片上传加载
-      uploadImg: "/api/upload"
+      uploadImg: "/api/upload",
+      defaultLableList: [], //类别列表
+      isUpdate: false //更新or新增
     };
   },
   methods: {
@@ -164,12 +163,22 @@ export default {
         }
       });
     },
+    //查询标签列表
+    getLableList() {
+      this.$axios({
+        method: "get",
+        url: "/api/getLableList",
+        params: {}
+      }).then(res => {
+        if (res.data.code == 200) {
+          this.defaultLableList = res.data.data;
+        } else {
+          this.$message.error("查询失败");
+        }
+      });
+    },
     //表单提交
     submitForm() {
-      let author = localStorage.getItem("user");
-      let user_id = localStorage.getItem("id");
-      let date = new Date();
-      let dateTime = date.toLocaleString().replace(/下午/, " ");
       if (!this.title) {
         this.$message.destroy();
         this.$message.error("请输入文章标题");
@@ -185,6 +194,18 @@ export default {
         this.$message.error("请输入内容");
         return;
       }
+      if (this.isUpdate) {
+        alert("更新");
+      } else {
+        this.handleCreateArt();
+      }
+    },
+    //创建文章
+    handleCreateArt() {
+      let author = localStorage.getItem("user");
+      let user_id = localStorage.getItem("id");
+      let date = new Date();
+      let dateTime = date.toLocaleString().replace(/下午/, " ");
       this.$axios({
         method: "post",
         url: "/api/createArticle",

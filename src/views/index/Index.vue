@@ -52,21 +52,18 @@
                       <div>
                         <a-icon type="user" /> {{ item.author }}
                         <a-icon type="tags" style="margin-left:20px" />
-                        <span v-if="item.category == 1">
-                          JavaScript
-                        </span>
-                        <span v-if="item.category == 2">
-                          React
-                        </span>
-                        <span v-if="item.category == 3">
-                          Vue
-                        </span>
-                        <span v-if="item.category == 4">
-                          CSS
+                        <span @click="goArticeLable(item.category)">
+                          {{ item.category_name }}
                         </span>
                       </div>
-                      <div>
-                        {{ item.add_time }}
+                      <div class="layout-flex-row">
+                        <div>
+                          {{ item.add_time | format("YYYY-MM-DD HH:mm:ss") }}
+                        </div>
+                        <div style="margin-left: 20px">
+                          <a-icon type="eye" />
+                          {{ item.read_num ? item.read_num : 0 }} 次
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -178,9 +175,11 @@
     <div>
       <Footer />
     </div>
-    <div class="go-top">
-      <a-back-top />
-    </div>
+    <a-back-top :visibilityHeight="100">
+      <div class="ant-back-top-inner">
+        UP
+      </div>
+    </a-back-top>
   </div>
 </template>
 <script>
@@ -215,21 +214,6 @@ export default {
         this.articleList = res.data.data ? res.data.data : [];
       });
     },
-    //日期格式化
-    formatTime: function(val) {
-      if (!val) return "- -";
-      var date = new Date(val);
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      month = month < 10 ? "0" + month : month;
-      var day = date.getDate();
-      day = day < 10 ? "0" + day : day;
-      var h = date.getHours();
-      h = h < 10 ? "0" + h : h;
-      var m = date.getMinutes();
-      m = m < 10 ? "0" + m : m;
-      return year + "-" + month + "-" + day + " " + h + ":" + m;
-    },
     //跳转写作页面
     goWrite() {
       this.$router.push({ path: "/wirteArticle" });
@@ -237,11 +221,29 @@ export default {
     //搜索文章
     onSearch() {
       this.getArticleList();
+    },
+    //搜索索引标签
+    goArticeLable(id) {
+      let lableId = id;
+      this.$router.push({ path: "/article/category", query: { lableId } });
     }
   }
 };
 </script>
 <style lang="less" scoped>
+#components-back-top-demo-custom .ant-back-top {
+  bottom: 100px;
+}
+#components-back-top-demo-custom .ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
 .index {
   background-color: #f6f6f6;
   padding-bottom: 40px;
@@ -381,6 +383,9 @@ export default {
   }
   .foot-text {
     color: #999;
+    span {
+      cursor: pointer;
+    }
   }
   .go-top {
     position: absolute;

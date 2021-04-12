@@ -16,7 +16,10 @@
               <div>
                 <a-icon type="history" /> 发布时间: {{ articleObj.add_time }}
               </div>
-              <div><a-icon type="eye" /> 浏览次数: 3 次</div>
+              <div>
+                <a-icon type="eye" /> 浏览次数:
+                {{ articleObj.read_num ? articleObj.read_num : 0 }} 次
+              </div>
             </div>
             <div class="body" v-html="articleObj.content">
               {{ articleObj.content }}
@@ -42,6 +45,11 @@
         </div>
       </a-col>
     </a-row>
+    <a-back-top :visibilityHeight="100">
+      <div class="ant-back-top-inner">
+        UP
+      </div>
+    </a-back-top>
   </div>
 </template>
 
@@ -128,6 +136,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#components-back-top-demo-custom .ant-back-top {
+  bottom: 100px;
+}
+#components-back-top-demo-custom .ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
 .out {
   position: relative;
   background: #f6f6f6;

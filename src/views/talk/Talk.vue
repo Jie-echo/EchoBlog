@@ -58,7 +58,9 @@
                 <div class="remark-list-right">
                   <div class="remark-list-right-top">
                     <div>{{ item.userName }}</div>
-                    <div>{{ item.add_date }}</div>
+                    <div>
+                      {{ item.add_date | format("YYYY-MM-DD HH:mm:ss") }}
+                    </div>
                   </div>
                   <div>
                     {{ item.review }}
@@ -104,6 +106,11 @@
       </a-col>
       <a-col :span="2"></a-col>
     </a-row>
+    <a-back-top :visibilityHeight="100">
+      <div class="ant-back-top-inner">
+        UP
+      </div>
+    </a-back-top>
   </div>
 </template>
 
@@ -138,23 +145,7 @@ export default {
     handleRandomUserAvaer() {
       this.remarkList.forEach(item => {
         item.avatarIndex = Math.floor(Math.random() * 8);
-        item.add_date = this.formatTime(item.add_date);
       });
-    },
-    //日期格式化
-    formatTime: function(val) {
-      if (!val) return "- -";
-      var date = new Date(val);
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      month = month < 10 ? "0" + month : month;
-      var day = date.getDate();
-      day = day < 10 ? "0" + day : day;
-      var h = date.getHours();
-      h = h < 10 ? "0" + h : h;
-      var m = date.getMinutes();
-      m = m < 10 ? "0" + m : m;
-      return year + "-" + month + "-" + day + " " + h + ":" + m;
     },
     //提交留言
     handleSub() {
@@ -187,6 +178,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#components-back-top-demo-custom .ant-back-top {
+  bottom: 100px;
+}
+#components-back-top-demo-custom .ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
 .talk {
   //   padding-top: 6px;
   //   display: flex;

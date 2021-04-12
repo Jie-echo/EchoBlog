@@ -1,14 +1,20 @@
 <template>
   <div class="index">
+    <div class="category-header" v-if="isCategoryList">
+      文章
+    </div>
     <a-row :gutter="16">
       <a-col :span="3">
-        <div class="left">
+        <div class="left" v-if="!isCategoryList">
           <a-input-search
             placeholder="搜索文章"
             style="width: 160px"
             @search="onSearch"
             v-model="query"
           />
+        </div>
+        <div v-if="isCategoryList" class="outGoback">
+          <a-icon type="arrow-left" @click="goBack" class="goback" />
         </div>
       </a-col>
       <a-col :span="20" class="col-width">
@@ -40,22 +46,19 @@
                   <div class="layout-flex-bet foot-text">
                     <div>
                       <a-icon type="user" /> {{ item.author }}
-                      <a-icon type="tags" style="margin-left:20px" />
-                      <span v-if="item.category == 1">
-                        JavaScript
-                      </span>
-                      <span v-if="item.category == 2">
-                        React
-                      </span>
-                      <span v-if="item.category == 3">
-                        Vue
-                      </span>
-                      <span v-if="item.category == 4">
-                        CSS
+                      <a-icon type="tags" style="margin-left:20px;" />
+                      <span @click="goArticeLable(item.category)">
+                        {{ item.category_name }}
                       </span>
                     </div>
-                    <div>
-                      {{ item.add_time }}
+                    <div class="layout-flex-row">
+                      <div>
+                        {{ item.add_time | format("YYYY-MM-DD HH:mm:ss") }}
+                      </div>
+                      <div style="margin-left: 20px">
+                        <a-icon type="eye" />
+                        {{ item.read_num ? item.read_num : 0 }} 次
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -163,20 +166,35 @@
       </a-col>
       <a-col :span="1"></a-col>
     </a-row>
+    <a-back-top :visibilityHeight="100">
+      <div class="ant-back-top-inner">
+        UP
+      </div>
+    </a-back-top>
   </div>
 </template>
 <script>
 export default {
   mounted() {
-    this.getArticleList();
+    console.log(this.$route.query);
+    if (this.$route.query.lableId) {
+      let lableId = this.$route.query.lableId;
+      this.isCategoryList = true;
+      this.findCategoryArticleList(lableId);
+    } else {
+      this.getArticleList();
+      this.isCategoryList = false;
+    }
   },
   data() {
     return {
       articleList: [], //文章列表
-      query: "" // 模糊搜索
+      query: "", // 模糊搜索
+      isCategoryList: false //分类文章
     };
   },
   methods: {
+    //文章列表
     getArticleList() {
       this.$axios({
         method: "get",
@@ -194,32 +212,62 @@ export default {
     toArticleDetail(id) {
       this.$router.push({ name: "articleDetail", query: { id: id } });
     },
-    //日期格式化
-    formatTime: function(val) {
-      if (!val) return "- -";
-      var date = new Date(val);
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      month = month < 10 ? "0" + month : month;
-      var day = date.getDate();
-      day = day < 10 ? "0" + day : day;
-      var h = date.getHours();
-      h = h < 10 ? "0" + h : h;
-      var m = date.getMinutes();
-      m = m < 10 ? "0" + m : m;
-      return year + "-" + month + "-" + day + " " + h + ":" + m;
-    },
     //跳转写作页面
     goWrite() {
       this.$router.push({ path: "/wirteArticle" });
+    },
+    //搜索索引标签
+    goArticeLable(id) {
+      let lableId = id;
+      this.$router.push({ path: "/article/category", query: { lableId } });
+    },
+    //标签类列表
+    getCategoryArticleList() {},
+    //查询当前分类文章
+    findCategoryArticleList(lableId) {
+      let category = lableId;
+      this.$axios({
+        method: "get",
+        url: "/api/getArticleList",
+        params: {
+          category
+        }
+      }).then(res => {
+        this.articleList = res.data.data ? res.data.data : [];
+      });
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   }
 };
 </script>
 <style lang="less" scoped>
+#components-back-top-demo-custom .ant-back-top {
+  bottom: 100px;
+}
+#components-back-top-demo-custom .ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
 .index {
   background-color: #f6f6f6;
   padding-bottom: 40px;
+  .category-header {
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    background-color: #363636;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+  }
 }
 .col-width {
   //min-width: 1100px;
@@ -351,6 +399,20 @@ export default {
   }
   .foot-text {
     color: #999;
+    span {
+      cursor: pointer;
+    }
+  }
+}
+.outGoback {
+  position: relative;
+  margin-top: 18px;
+  .goback {
+    font-size: 18px;
+    color: #339999;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
   }
 }
 </style>

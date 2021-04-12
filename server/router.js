@@ -14,5 +14,6 @@ route
 .post('/postCreateRemark',methods.postCreateRemark)
 .post('/postDelArticleById',methods.postDelArticleById)
 .get('/getLableList',methods.getLableList)
-
+.post('/postCreateLable',methods.postCreateLable)
+.post("/postDelLable",methods.postDelLable)
 module.exports = route

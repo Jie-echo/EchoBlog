@@ -5,7 +5,8 @@ var connection = mysql.createConnection({
 	host:'127.0.0.1',
 	user:'root',
 	password:'123456',
-	database:'blog'
+	database:'blog',
+    multipleStatements: true
 });
 
 connection.connect();
@@ -45,8 +46,9 @@ module.exports = {
 
   //查询文章
   getArtListSql:function(callback,data){
-        let wh = data.query ? data.query : ""
-        var sql = "select * from article where title like '%" + wh + "%' ORDER BY add_time DESC"
+        let title = data.query ? data.query : ""
+        let category = data.category ? `AND category =  ${data.category} ` : ""
+        var sql = "select article.*,category_name from article LEFT JOIN classification ON classification.id = article.category where title like '%" + title + "%' " + category +"  ORDER BY add_time DESC"
         console.log(sql)
 	    connection.query(sql,function(err,res){
 			var data = res;
@@ -55,7 +57,7 @@ module.exports = {
   },
   getArtListByIdSql:function(callback,data){
       let wh = data.query ? data.query : ""
-      let sql = "select * from article where user_id = " + data.user_id + " and title like '%" + wh + "%' ORDER BY add_time DESC";
+      let sql = "select article.*,category_name from article LEFT JOIN classification ON classification.id = article.category where user_id = " + data.user_id + " and title like '%" + wh + "%' ORDER BY add_time DESC";
       console.log(sql)
       connection.query(sql,function(err,res){
           var data = res;
@@ -65,10 +67,14 @@ module.exports = {
   //查询文章详情
   getArtDetailSql:function(callback,data){
     var sql = "select * from article where id = " + data.id;
+    var sqlReadNum = "update article set read_num = read_num + 1 where id = " + data.id;
     console.log(sql)
-		connection.query(sql,function(err,res){
+		connection.query(sql, function(err,res){
 			var data = res;
 			callback(data);
+		})
+        connection.query(sqlReadNum, function(err,res){
+			
 		})
   },
   //根据id删除文章
@@ -112,6 +118,24 @@ module.exports = {
       connection.query(sql,function(err,res){
         var data = res;
         callback(data);
+      })
+  },
+  //新增标签
+  createLableSql:function(callback, data){
+      let sql = "insert into classification( category_name ) values ('" + data.category + "')"
+      console.log(sql)
+      connection.query(sql,function(err,res){
+          var data = res;
+          callback(data)
+      })
+  },
+  //删除标签
+  delLableSql:function(callback, data){
+      let sql = "delete from classification where id = " + data.id;
+      console.log(sql)
+      connection.query(sql,function(err,res){
+          var data = res;
+          callback(data)
       })
   }
 }

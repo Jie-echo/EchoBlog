@@ -75,17 +75,21 @@ module.exports = {
   getArticleList(req,res){
       let data = req.query; 
       db.getArtListSql(function(data){
-        if(data.length !== 0){
-            res.json({
-              code: 200,
-              data: data
-            })
-          }else{
-            res.json({
-              code: 500,
-              data:'查询文章失败'
-            })
-          }
+        res.json({
+            code: 200,
+            data: data
+          })
+        // if(data.length !== 0){
+        //     res.json({
+        //       code: 200,
+        //       data: data
+        //     })
+        //   }else{
+        //     res.json({
+        //       code: 500,
+        //       data:'查询文章失败'
+        //     })
+        //   }
       },data)
   },
   
@@ -189,5 +193,39 @@ module.exports = {
             })
           }
       },data)
-  }
+  },
+  //新增标签
+  postCreateLable(req,res){
+      let data = req.body;
+      db.createLableSql(function(data){
+        if(data.affectedRows){
+            res.json({
+              msg: '创建成功',
+              code: 200
+            })
+          }else{
+            res.json({
+              msg:"创建失败",
+              code: 500
+            })
+          }
+      },data)
+  },
+  //删除标签
+  postDelLable(req,res){
+      let data = req.body;
+      db.delLableSql(function(data){
+        if(data.affectedRows){
+            res.json({
+              msg: '删除成功',
+              code: 200
+            })
+          }else{
+            res.json({
+              msg:"删除失败",
+              code: 500
+            })
+          }
+      },data)
+  },
 }
