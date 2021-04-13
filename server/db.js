@@ -79,7 +79,6 @@ module.exports = {
   },
   //根据id删除文章
   postDelArticleSql:function(callback,data){
-      console.log(data)
     var sql = "delete from article where id = " + data.articleId;
     console.log(sql)
     connection.query(sql,function(err,res){
@@ -87,7 +86,15 @@ module.exports = {
         callback(data);
     })
   },
-
+  //更新文章
+  updateArtSql:function(callback,data){
+    var sql = `UPDATE article SET title='${data.title}', cover='${data.cover}', remark='${data.remark}', category=${data.category}, add_time='${data.add_time}', content='${data.content}' where id = ${data.articleId}`
+    console.log(sql)
+    connection.query(sql,function(err,res){
+        var data = res;
+        callback(data);
+      })
+  },
   //留言查询
   getRemarkSql:function(callback, data){
       //SELECT r.*, u.userName from review r JOIN user u ON r.user_id = u.id

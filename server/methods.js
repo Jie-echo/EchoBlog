@@ -143,6 +143,23 @@ module.exports = {
           }
       },data)
   },
+  //更新文章
+  postUpdateArt(req,res) {
+    let data = req.body
+    db.updateArtSql(function(data){
+        if(data.affectedRows){
+            res.json({
+              msg: '修改成功',
+              code: 200
+            })
+          }else{
+            res.json({
+              msg:"修改失败",
+              code: 500
+            })
+          }
+    },data)
+  },
   //留言查询
   getRemarkList(req,res){
       let data = req.query

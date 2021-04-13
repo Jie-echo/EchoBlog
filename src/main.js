@@ -5,6 +5,9 @@ import store from './store'
 import axios from "axios";
 import Antd from "ant-design-vue";
 import moment from "moment";
+import hljs from 'highlight.js';
+
+import 'highlight.js/styles/atom-one-dark.css' //样式
 import "ant-design-vue/dist/antd.css";
 import '../src/assets/public/common.less'
 Vue.use(Antd);
@@ -17,6 +20,18 @@ Vue.filter("format", function(input, fmtstring) {
   });
    
   Vue.prototype.$moment = moment;
+
+  Vue.directive('highlight',function(el){
+
+        let blocks = el.querySelectorAll('pre code');
+    
+        blocks.forEach((block)=>{
+    
+            hljs.highlightBlock(block)
+    
+        })
+    
+    })
 
 new Vue({
   router,

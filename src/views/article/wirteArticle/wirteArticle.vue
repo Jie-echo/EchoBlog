@@ -1,9 +1,9 @@
 <template>
   <div class="out">
     <div class="head"></div>
-    <a-row :gutter="16">
-      <a-col :span="6"></a-col>
-      <a-col :span="12">
+    <a-row>
+      <a-col :span="3"></a-col>
+      <a-col :span="17">
         <div class="content">
           <div class="title">创作文章</div>
           <div class="content-div">
@@ -34,8 +34,18 @@
                 />
               </div>
             </div>
-            <div id="wangeditor" style="margin: 14px 0">
+            <!-- <div id="wangeditor" style="margin: 14px 0">
               <div ref="editorElem" style="text-align:left;"></div>
+            </div> -->
+            <div class="markdown" style="margin: 14px 0">
+              <div class="container">
+                <mavon-editor
+                  v-model="content"
+                  ref="md"
+                  @change="change"
+                  style="min-height: 600px"
+                />
+              </div>
             </div>
             <div class="flex-row">
               <div>
@@ -95,12 +105,15 @@
           </div>
         </div>
       </a-col>
-      <a-col :span="6"></a-col>
+      <a-col :span="4"></a-col>
     </a-row>
   </div>
 </template>
 <script>
-import Editer from "wangeditor";
+//import Editer from "wangeditor";
+// 导入组件 及 组件样式
+import { mavonEditor } from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -113,13 +126,14 @@ export default {
   name: "wirteArticle",
   mounted() {
     // wangeditor
-    this.editorContent = new Editer("#wangeditor");
-    // 创建一个富文本编辑器
-    this.editorContent.create();
-    // 富文本内容
-    this.editorContent.txt.html();
+    // this.editorContent = new Editer("#wangeditor");
+    // // 创建一个富文本编辑器
+    // this.editorContent.create();
+    // // 富文本内容
+    // this.editorContent.txt.html();
     if (this.$route.query.id) {
-      this.getarticleDetail(this.$route.query.id);
+      this.articleId = this.$route.query.id;
+      this.getarticleDetail(this.articleId);
       this.isUpdate = true;
     }
     this.getLableList();
@@ -128,13 +142,16 @@ export default {
     return {
       title: "", //文章标题
       remark: "", //文章简介
-      editorContent: "", //富文本框
+      //editorContent: "", //富文本框
       clssfiy: 1, //分类
       imageUrl: "", //上传图片地址
       imgLoading: false, //图片上传加载
       uploadImg: "/api/upload",
       defaultLableList: [], //类别列表
-      isUpdate: false //更新or新增
+      isUpdate: false, //更新or新增
+      content: "", // 输入的markdown
+      html: "", // 及时转的html
+      articleId: ""
     };
   },
   methods: {
@@ -155,7 +172,7 @@ export default {
           let obj = res.data.data[0];
           this.title = obj.title; //文章标题
           this.remark = obj.remark; //文章简介
-          this.editorContent = obj.content; //富文本框
+          this.content = obj.content; //富文本框
           this.clssfiy = obj.category; //分类
           this.imageUrl = obj.cover; //上传图片地址
         } else {
@@ -177,6 +194,11 @@ export default {
         }
       });
     },
+    // 所有操作都会被解析重新渲染
+    change(value, render) {
+      // render 为 markdown 解析后的结果[html]
+      this.html = render;
+    },
     //表单提交
     submitForm() {
       if (!this.title) {
@@ -189,13 +211,13 @@ export default {
         this.$message.error("请输入文章摘要");
         return;
       }
-      if (!this.editorContent.txt.html()) {
+      if (!this.content) {
         this.$message.destroy();
         this.$message.error("请输入内容");
         return;
       }
       if (this.isUpdate) {
-        alert("更新");
+        this.handleUpdateArt();
       } else {
         this.handleCreateArt();
       }
@@ -217,9 +239,32 @@ export default {
           category: this.clssfiy,
           user_id: user_id,
           add_time: dateTime,
-          content: this.editorContent.txt.html()
+          //   content: this.editorContent.txt.html()
+          content: this.content
         }
       }).then(res => {
+        this.$message.success("创建成功");
+        this.$router.push({ path: "/index" });
+      });
+    },
+    //更新文章
+    handleUpdateArt() {
+      let date = new Date();
+      let dateTime = date.toLocaleString().replace(/下午/, " ");
+      this.$axios({
+        method: "post",
+        url: "/api/postUpdateArt",
+        data: {
+          title: this.title,
+          cover: this.imageUrl,
+          remark: this.remark,
+          category: this.clssfiy,
+          add_time: dateTime,
+          content: this.content,
+          articleId: this.articleId
+        }
+      }).then(res => {
+        this.$message.success("更新成功");
         this.$router.push({ path: "/index" });
       });
     },
@@ -245,22 +290,25 @@ export default {
       return isJpgOrPng && isLt2M;
     }
   },
-  components: {}
+  components: {
+    mavonEditor
+  }
 };
 </script>
 <style scoped lang="less">
 .out {
   position: relative;
   background: #f6f6f6;
-  //height:100vh;
-  height: 980px;
+  height: 100vh;
+  height: 100%;
+  padding-bottom: 50px;
 }
 .head {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 430px;
+  height: 1200px;
   background-color: #363636;
 }
 .content {
@@ -277,8 +325,8 @@ export default {
   }
   .content-div {
     background: #fff;
-    width: 50vw;
-    min-height: 500px;
+    width: 70vw;
+    min-height: 600px;
     padding: 30px;
     border-radius: 16px;
   }

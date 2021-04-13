@@ -10,6 +10,7 @@ route
 .get('/getArticleList',methods.getArticleList)
 .get('/getArticleListById',methods.getArticleListById)
 .get('/getArticleDetail',methods.getArticleDetail)
+.post('/postUpdateArt',methods.postUpdateArt)
 .get('/getRemarkList',methods.getRemarkList)
 .post('/postCreateRemark',methods.postCreateRemark)
 .post('/postDelArticleById',methods.postDelArticleById)
