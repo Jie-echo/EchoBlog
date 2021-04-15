@@ -21,8 +21,8 @@
                 {{ articleObj.read_num ? articleObj.read_num : 0 }} 次
               </div>
             </div>
-            <div class="body" v-html="articleObj.content">
-              {{ articleObj.content }}
+            <div class="body container" v-html="html" v-highlight>
+              {{ html }}
             </div>
           </div>
         </div>
@@ -54,6 +54,26 @@
 </template>
 
 <script>
+import marked from "marked";
+import "mavon-editor/dist/css/index.css";
+marked.setOptions({
+  // 他是底层的东西，一般不改，比如 **我是粗体** 解析成<strong>我是粗体</strong>，如果你不满意就可以改变他的结构，比较麻烦。
+  renderer: new marked.Renderer(),
+  // 默认：true， 启用Github的风格
+  gfm: true,
+  // 默认：true，启动表格， 前提必须gfm: true,
+  tables: true,
+  // 默认：false，启用回车换行，前提必须gfm: true,
+  breaks: false,
+  // 默认：false，尽可能地兼容 markdown.pl的晦涩部分。不纠正原始模型任何的不良行为和错误。
+  pedantic: false,
+  // 默认：false，对输出进行过滤（清理），将忽略任何已经输入的html代码（标签）
+  sanitize: false,
+  // 默认：true，使用比原生markdown更时髦的列表。 旧的列表将可能被作为pedantic的处理内容过滤掉
+  smartLists: true,
+  // 默认：false，使用更为时髦的标点，比如在引用语法中加入破折号。
+  smartypants: false
+});
 export default {
   mounted() {
     let id = this.$route.query.id;
@@ -64,7 +84,8 @@ export default {
     return {
       articleObj: {}, //文章内容
       showEdit: false, //是否能够对当前文章进行编辑
-      articleId: ""
+      articleId: "",
+      html: ""
     };
   },
   methods: {
@@ -79,6 +100,8 @@ export default {
         if (res.data.code == 200) {
           this.articleObj = res.data.data[0];
           this.articleObj.add_time = this.formatTime(this.articleObj.add_time);
+          this.articleObj.content = marked(this.articleObj.content || "");
+          this.html = marked(this.articleObj.content || "");
           let user_id = localStorage.getItem("id");
           if (user_id == this.articleObj.user_id) {
             this.showEdit = true;

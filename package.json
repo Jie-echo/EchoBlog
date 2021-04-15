@@ -15,6 +15,8 @@
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "highlight.js": "^10.7.2",
+    "html-loader": "^0.5.5",
+    "marked": "^2.0.3",
     "mavon-editor": "^2.9.1",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
