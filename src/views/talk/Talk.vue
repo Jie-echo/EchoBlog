@@ -220,13 +220,14 @@ li {
   width: 750px;
 }
 .talk-right {
-  margin: 30px;
+  margin: 230px 30px 30px 30px;
   padding: 0 20px;
   width: 450px;
   height: 230px;
   line-height: 1.8em;
   box-shadow: 5px 5px 20px #e4e3e3;
   background-color: #fff;
+  animation: upMove 3s ease alternate forwards;
   .right-title {
     margin-bottom: 10px;
     font-weight: bold;
@@ -235,6 +236,16 @@ li {
     padding: 10px 20px 20px;
     background-color: #f6f6f6;
     margin-top: 15px;
+  }
+}
+@keyframes upMove {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-200px);
   }
 }
 .col-style {

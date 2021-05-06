@@ -20,154 +20,156 @@
           </div>
         </a-col>
         <a-col :span="18" class="col-width">
-          <div class="container-out">
-            <div class="layout-flex-col">
-              <div v-if="articleList.length !== 0">
-                <div
-                  class="container-inner"
-                  v-for="item in articleList"
-                  :key="item.id"
-                >
-                  <div class="content">
-                    <div class="layout-flex-bet">
-                      <div>
-                        <div
-                          class="title-text"
-                          @click="toArticleDetail(item.id)"
-                        >
-                          {{ item.title }}
-                        </div>
-                        <div class="remark-text">{{ item.remark }}</div>
-                      </div>
-                      <div class="content-img">
-                        <img
-                          :src="item.cover"
-                          width="60"
-                          height="60"
-                          v-if="item.cover"
-                        />
-                      </div>
-                    </div>
-                    <div class="layout-flex-bet foot-text">
-                      <div>
-                        <a-icon type="user" /> {{ item.author }}
-                        <a-icon type="tags" style="margin-left:20px" />
-                        <span @click="goArticeLable(item.category)">
-                          {{ item.category_name }}
-                        </span>
-                      </div>
-                      <div class="layout-flex-row">
+          <a-spin size="large" :spinning="loadingData">
+            <div class="container-out">
+              <div class="layout-flex-col">
+                <div v-if="articleList.length !== 0">
+                  <div
+                    class="container-inner"
+                    v-for="item in articleList"
+                    :key="item.id"
+                  >
+                    <div class="content">
+                      <div class="layout-flex-bet">
                         <div>
-                          {{ item.add_time | format("YYYY-MM-DD HH:mm:ss") }}
+                          <div
+                            class="title-text"
+                            @click="toArticleDetail(item.id)"
+                          >
+                            {{ item.title }}
+                          </div>
+                          <div class="remark-text">{{ item.remark }}</div>
                         </div>
-                        <div style="margin-left: 20px">
-                          <a-icon type="eye" />
-                          {{ item.read_num ? item.read_num : 0 }} 次
+                        <div class="content-img">
+                          <img
+                            :src="item.cover"
+                            width="60"
+                            height="60"
+                            v-if="item.cover"
+                          />
+                        </div>
+                      </div>
+                      <div class="layout-flex-bet foot-text">
+                        <div>
+                          <a-icon type="user" /> {{ item.author }}
+                          <a-icon type="tags" style="margin-left:20px" />
+                          <span @click="goArticeLable(item.category)">
+                            {{ item.category_name }}
+                          </span>
+                        </div>
+                        <div class="layout-flex-row">
+                          <div>
+                            {{ item.add_time | format("YYYY-MM-DD HH:mm:ss") }}
+                          </div>
+                          <div style="margin-left: 20px">
+                            <a-icon type="eye" />
+                            {{ item.read_num ? item.read_num : 0 }} 次
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="container-inner" v-else>
-                <div class="content-no-data">
-                  <div>
-                    <img
-                      src="../../assets/noData.png"
-                      width="100"
-                      height="100"
-                      alt=""
-                    />
-                  </div>
-                  <div class="no-data-text">
-                    暂无文章
-                  </div>
-                  <div class="go-write" @click="goWrite">
-                    去创作? -->
+                <div class="container-inner" v-else>
+                  <div class="content-no-data">
+                    <div>
+                      <img
+                        src="../../assets/noData.png"
+                        width="100"
+                        height="100"
+                        alt=""
+                      />
+                    </div>
+                    <div class="no-data-text">
+                      暂无文章
+                    </div>
+                    <div class="go-write" @click="goWrite">
+                      去创作? -->
+                    </div>
                   </div>
                 </div>
+              </div>
+              <div class="float-left">
+                <div class="left-title">框架类库导航</div>
+                <!-- React -->
+                <a href="https://reactjs.org/" target="_blank">
+                  <div class="left-div-out">
+                    <div>
+                      <div class="title">
+                        <img
+                          width="40"
+                          height="40"
+                          class="loaded"
+                          src="../../assets/React.png"
+                        />
+                        React
+                      </div>
+                      <div class="footer-text">
+                        用于构建用户界面的Javascript库
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <!-- Vue -->
+                <a href="https://cn.vuejs.org/" target="_blank">
+                  <div class="left-div-out">
+                    <div>
+                      <div class="title">
+                        <img
+                          width="40"
+                          height="40"
+                          class="loaded"
+                          src="../../assets/Vue.png"
+                        />
+                        Vue
+                      </div>
+                      <div class="footer-text">
+                        构建数据驱动的web界面的渐进式框架
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <!-- jQuery -->
+                <a href="https://www.jquery123.com/" target="_blank">
+                  <div class="left-div-out">
+                    <div>
+                      <div class="title">
+                        <img
+                          width="40"
+                          height="40"
+                          class="loaded"
+                          src="../../assets/jQuery.png"
+                        />
+                        jQuery
+                      </div>
+                      <div class="footer-text">
+                        优秀的JavaScript代码库
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <!-- Bootstrap -->
+                <a href="https://www.bootcss.com/" target="_blank">
+                  <div class="left-div-out">
+                    <div>
+                      <div class="title">
+                        <img
+                          width="40"
+                          height="40"
+                          class="loaded"
+                          src="../../assets/Bootstrap.png"
+                        />
+                        Bootstrap
+                      </div>
+                      <div class="footer-text">
+                        基于HTML、CSS、JavaScript的前端框架
+                      </div>
+                    </div>
+                  </div>
+                </a>
               </div>
             </div>
-            <div class="float-left">
-              <div class="left-title">框架类库导航</div>
-              <!-- React -->
-              <a href="https://reactjs.org/" target="_blank">
-                <div class="left-div-out">
-                  <div>
-                    <div class="title">
-                      <img
-                        width="40"
-                        height="40"
-                        class="loaded"
-                        src="../../assets/React.png"
-                      />
-                      React
-                    </div>
-                    <div class="footer-text">
-                      用于构建用户界面的Javascript库
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <!-- Vue -->
-              <a href="https://cn.vuejs.org/" target="_blank">
-                <div class="left-div-out">
-                  <div>
-                    <div class="title">
-                      <img
-                        width="40"
-                        height="40"
-                        class="loaded"
-                        src="../../assets/Vue.png"
-                      />
-                      Vue
-                    </div>
-                    <div class="footer-text">
-                      构建数据驱动的web界面的渐进式框架
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <!-- jQuery -->
-              <a href="https://www.jquery123.com/" target="_blank">
-                <div class="left-div-out">
-                  <div>
-                    <div class="title">
-                      <img
-                        width="40"
-                        height="40"
-                        class="loaded"
-                        src="../../assets/jQuery.png"
-                      />
-                      jQuery
-                    </div>
-                    <div class="footer-text">
-                      优秀的JavaScript代码库
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <!-- Bootstrap -->
-              <a href="https://www.bootcss.com/" target="_blank">
-                <div class="left-div-out">
-                  <div>
-                    <div class="title">
-                      <img
-                        width="40"
-                        height="40"
-                        class="loaded"
-                        src="../../assets/Bootstrap.png"
-                      />
-                      Bootstrap
-                    </div>
-                    <div class="footer-text">
-                      基于HTML、CSS、JavaScript的前端框架
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
+          </a-spin>
         </a-col>
         <a-col :span="2"></a-col>
       </a-row>
@@ -195,7 +197,8 @@ export default {
     return {
       articleList: [], //文章列表
       user_id: "", //用户id
-      query: "" //搜索关键字
+      query: "", //搜索关键字
+      loadingData: false
     };
   },
   methods: {
@@ -203,6 +206,7 @@ export default {
       this.$router.push({ name: "articleDetail", query: { id: id } });
     },
     getArticleList() {
+      this.loadingData = true;
       this.$axios({
         method: "get",
         url: "/api/getArticleListById",
@@ -211,6 +215,11 @@ export default {
           query: this.query
         }
       }).then(res => {
+        if (res.data.code == 1000) {
+          this.$message.error("未登录，请登录！");
+          this.$router.push({ path: "/login" });
+        }
+        this.loadingData = false;
         this.articleList = res.data.data ? res.data.data : [];
       });
     },
@@ -314,6 +323,7 @@ export default {
   }
   .float-left {
     width: 260px;
+    height: 580px;
     margin: 0 10px 10px 10px;
     background-color: #fff;
     .left-div-out {

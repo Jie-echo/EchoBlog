@@ -1,39 +1,43 @@
 <template>
   <div class="lable">
     <div class="lable-content">
-      <div class="content">
-        <div
-          v-for="(item, index) in defaultLableList"
-          :key="item.id"
-          class="lable-button"
-          @click="goArticeLable(item.id)"
-        >
-          <a-tag
-            @close="() => handleClose(item.id)"
-            :closable="index !== 0 && index !== 1 && index !== 2 && index !== 3"
+      <a-spin size="large" :spinning="loadingData">
+        <div class="content">
+          <div
+            v-for="(item, index) in defaultLableList"
+            :key="item.id"
+            class="lable-button"
+            @click="goArticeLable(item.id)"
           >
-            {{ item.category_name }}
+            <a-tag
+              @close="() => handleClose(item.id)"
+              :closable="
+                index !== 0 && index !== 1 && index !== 2 && index !== 3
+              "
+            >
+              {{ item.category_name }}
+            </a-tag>
+          </div>
+          <a-input
+            v-if="inputVisible"
+            ref="input"
+            type="text"
+            size="small"
+            :style="{ width: '160px', height: '50px' }"
+            :value="inputLableValue"
+            @change="handleInputChange"
+            @blur="handleSelectBlur"
+            @keyup.enter="handleInputConfirm"
+          />
+          <a-tag
+            v-else
+            style="background: #fff; borderStyle: dashed;"
+            @click="showInput"
+          >
+            <a-icon type="plus" /> New Tag
           </a-tag>
         </div>
-        <a-input
-          v-if="inputVisible"
-          ref="input"
-          type="text"
-          size="small"
-          :style="{ width: '160px', height: '50px' }"
-          :value="inputLableValue"
-          @change="handleInputChange"
-          @blur="handleSelectBlur"
-          @keyup.enter="handleInputConfirm"
-        />
-        <a-tag
-          v-else
-          style="background: #fff; borderStyle: dashed;"
-          @click="showInput"
-        >
-          <a-icon type="plus" /> New Tag
-        </a-tag>
-      </div>
+      </a-spin>
     </div>
   </div>
 </template>
@@ -47,6 +51,7 @@ export default {
     return {
       inputVisible: false,
       inputLableValue: "",
+      loadingData: false, //loading
       defaultLableList: [
         {
           id: 1,
@@ -74,11 +79,13 @@ export default {
   methods: {
     //查询标签列表
     getLableList() {
+      this.loadingData = true;
       this.$axios({
         method: "get",
         url: "/api/getLableList",
         params: {}
       }).then(res => {
+        this.loadingData = false;
         if (res.data.code == 200) {
           this.defaultLableList = res.data.data;
         } else {

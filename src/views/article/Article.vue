@@ -18,151 +18,168 @@
         </div>
       </a-col>
       <a-col :span="20" class="col-width">
-        <div class="container-out">
-          <div class="layout-flex-col">
-            <div v-if="articleList.length !== 0">
-              <div
-                class="container-inner"
-                v-for="item in articleList"
-                :key="item.id"
-              >
-                <div class="content">
-                  <div class="layout-flex-bet">
-                    <div>
-                      <div class="title-text" @click="toArticleDetail(item.id)">
-                        {{ item.title }}
-                      </div>
-                      <div class="remark-text">{{ item.remark }}</div>
-                    </div>
-                    <div class="content-img">
-                      <img
-                        :src="item.cover"
-                        width="60"
-                        height="60"
-                        v-if="item.cover"
-                      />
-                    </div>
-                  </div>
-                  <div class="layout-flex-bet foot-text">
-                    <div>
-                      <a-icon type="user" /> {{ item.author }}
-                      <a-icon type="tags" style="margin-left:20px;" />
-                      <span @click="goArticeLable(item.category)">
-                        {{ item.category_name }}
-                      </span>
-                    </div>
-                    <div class="layout-flex-row">
+        <a-spin size="large" :spinning="loadingData">
+          <div class="container-out">
+            <div class="layout-flex-col">
+              <div v-if="articleList.length !== 0">
+                <div
+                  class="container-inner"
+                  v-for="item in articleList"
+                  :key="item.id"
+                >
+                  <div class="content">
+                    <div class="layout-flex-bet">
                       <div>
-                        {{ item.add_time | format("YYYY-MM-DD HH:mm:ss") }}
+                        <div
+                          class="title-text"
+                          @click="toArticleDetail(item.id)"
+                        >
+                          {{ item.title }}
+                        </div>
+                        <div class="remark-text">{{ item.remark }}</div>
                       </div>
-                      <div style="margin-left: 20px">
-                        <a-icon type="eye" />
-                        {{ item.read_num ? item.read_num : 0 }} 次
+                      <div class="content-img">
+                        <img
+                          :src="item.cover"
+                          width="60"
+                          height="60"
+                          v-if="item.cover"
+                        />
+                      </div>
+                    </div>
+                    <div class="layout-flex-bet foot-text">
+                      <div>
+                        <a-icon type="user" /> {{ item.author }}
+                        <a-icon type="tags" style="margin-left:20px;" />
+                        <span @click="goArticeLable(item.category)">
+                          {{ item.category_name }}
+                        </span>
+                      </div>
+                      <div class="layout-flex-row">
+                        <div>
+                          {{ item.add_time | format("YYYY-MM-DD HH:mm:ss") }}
+                        </div>
+                        <div style="margin-left: 20px">
+                          <a-icon type="eye" />
+                          {{ item.read_num ? item.read_num : 0 }} 次
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="container-inner" v-else>
-              <div class="content-no-data">
-                <div>
-                  <img
-                    src="../../assets/noData.png"
-                    width="100"
-                    height="100"
-                    alt=""
-                  />
-                </div>
-                <div class="no-data-text">
-                  暂无文章
-                </div>
-                <div class="go-write" @click="goWrite">
-                  去创作? -->
+              <div class="container-inner" v-else>
+                <div class="content-no-data">
+                  <div>
+                    <img
+                      src="../../assets/noData.png"
+                      width="100"
+                      height="100"
+                      alt=""
+                    />
+                  </div>
+                  <div class="no-data-text">
+                    暂无文章
+                  </div>
+                  <div class="go-write" @click="goWrite">
+                    去创作? -->
+                  </div>
                 </div>
               </div>
+            </div>
+            <div class="float-left">
+              <div class="left-title">推荐书籍导航</div>
+              <!-- 深入React技术栈 -->
+              <a
+                href="https://book.douban.com/subject/26918038/"
+                target="_blank"
+              >
+                <div class="left-div-out">
+                  <div>
+                    <div class="title">
+                      <img
+                        width="40"
+                        height="40"
+                        class="loaded"
+                        src="https://img9.doubanio.com/view/subject/s/public/s29162154.jpg"
+                      />
+                      深入React技术栈
+                    </div>
+                    <div class="footer-text">
+                      前端组件化主流解决方案，一本书玩转React“全家桶”
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <!-- JavaScript高级程序设计（第4版） -->
+              <a
+                href="https://book.douban.com/subject/35175321/"
+                target="_blank"
+              >
+                <div class="left-div-out">
+                  <div>
+                    <div class="title">
+                      <img
+                        width="40"
+                        height="40"
+                        class="loaded"
+                        src="https://img9.doubanio.com/view/subject/s/public/s33703494.jpg"
+                      />
+                      JavaScript高级程序设计（第4版）
+                    </div>
+                    <div class="footer-text">
+                      深入地介绍了JavaScript开发者必须掌握的前端开发技术
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <!-- JavaScript设计模式与开发实践 -->
+              <a
+                href="https://book.douban.com/subject/26382780/"
+                target="_blank"
+              >
+                <div class="left-div-out">
+                  <div>
+                    <div class="title">
+                      <img
+                        width="40"
+                        height="40"
+                        class="loaded"
+                        src="https://img9.doubanio.com/view/subject/s/public/s28065006.jpg"
+                      />
+                      JavaScript设计模式与开发实践
+                    </div>
+                    <div class="footer-text">
+                      教会你如何把经典的设计模式应用到JavaScript语言中
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <!-- Python编程 -->
+              <a
+                href="https://book.douban.com/subject/26829016/"
+                target="_blank"
+              >
+                <div class="left-div-out">
+                  <div>
+                    <div class="title">
+                      <img
+                        width="40"
+                        height="40"
+                        class="loaded"
+                        src="https://img9.doubanio.com/view/subject/s/public/s28891775.jpg"
+                      />
+                      Python编程
+                    </div>
+                    <div class="footer-text">
+                      一本针对所有层次的Python 读者而作的Python 入门书
+                    </div>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
-          <div class="float-left">
-            <div class="left-title">推荐书籍导航</div>
-            <!-- 深入React技术栈 -->
-            <a href="https://book.douban.com/subject/26918038/" target="_blank">
-              <div class="left-div-out">
-                <div>
-                  <div class="title">
-                    <img
-                      width="40"
-                      height="40"
-                      class="loaded"
-                      src="https://img9.doubanio.com/view/subject/s/public/s29162154.jpg"
-                    />
-                    深入React技术栈
-                  </div>
-                  <div class="footer-text">
-                    前端组件化主流解决方案，一本书玩转React“全家桶”
-                  </div>
-                </div>
-              </div>
-            </a>
-            <!-- JavaScript高级程序设计（第4版） -->
-            <a href="https://book.douban.com/subject/35175321/" target="_blank">
-              <div class="left-div-out">
-                <div>
-                  <div class="title">
-                    <img
-                      width="40"
-                      height="40"
-                      class="loaded"
-                      src="https://img9.doubanio.com/view/subject/s/public/s33703494.jpg"
-                    />
-                    JavaScript高级程序设计（第4版）
-                  </div>
-                  <div class="footer-text">
-                    深入地介绍了JavaScript开发者必须掌握的前端开发技术
-                  </div>
-                </div>
-              </div>
-            </a>
-            <!-- JavaScript设计模式与开发实践 -->
-            <a href="https://book.douban.com/subject/26382780/" target="_blank">
-              <div class="left-div-out">
-                <div>
-                  <div class="title">
-                    <img
-                      width="40"
-                      height="40"
-                      class="loaded"
-                      src="https://img9.doubanio.com/view/subject/s/public/s28065006.jpg"
-                    />
-                    JavaScript设计模式与开发实践
-                  </div>
-                  <div class="footer-text">
-                    教会你如何把经典的设计模式应用到JavaScript语言中
-                  </div>
-                </div>
-              </div>
-            </a>
-            <!-- Python编程 -->
-            <a href="https://book.douban.com/subject/26829016/" target="_blank">
-              <div class="left-div-out">
-                <div>
-                  <div class="title">
-                    <img
-                      width="40"
-                      height="40"
-                      class="loaded"
-                      src="https://img9.doubanio.com/view/subject/s/public/s28891775.jpg"
-                    />
-                    Python编程
-                  </div>
-                  <div class="footer-text">
-                    一本针对所有层次的Python 读者而作的Python 入门书
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
+        </a-spin>
       </a-col>
       <a-col :span="1"></a-col>
     </a-row>
@@ -190,12 +207,14 @@ export default {
     return {
       articleList: [], //文章列表
       query: "", // 模糊搜索
-      isCategoryList: false //分类文章
+      isCategoryList: false, //分类文章
+      loadingData: false
     };
   },
   methods: {
     //文章列表
     getArticleList() {
+      this.loadingData = true;
       this.$axios({
         method: "get",
         url: "/api/getArticleList",
@@ -203,6 +222,7 @@ export default {
           query: this.query
         }
       }).then(res => {
+        this.loadingData = false;
         this.articleList = res.data.data ? res.data.data : [];
       });
     },
@@ -299,6 +319,7 @@ export default {
   }
   .float-left {
     width: 260px;
+    height: 580px;
     margin: 0 10px 10px 10px;
     background-color: #fff;
     .left-div-out {

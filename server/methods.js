@@ -10,6 +10,7 @@ module.exports = {
     db.select(function(data){
       console.log(data)
       if(data.length !== 0){
+        req.session.sessionData = data
         res.json({
           code: 200,
           data: data
@@ -94,6 +95,13 @@ module.exports = {
   },
   
   getArticleListById(req,res){
+      if(!req.session.sessionData){
+        res.json({
+            code: 1000,
+            data: []
+          })
+        return
+      }
     let data = req.query; 
     db.getArtListByIdSql(function(data){
       if(data.length !== 0){
