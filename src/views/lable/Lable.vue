@@ -107,14 +107,12 @@ export default {
     handleInputConfirm() {
       const inputValue = this.inputValue;
       let defaultLableList = this.defaultLableList;
-      //this.handleAddLable()
       let haveLable = false;
       defaultLableList.forEach(element => {
-        if (inputValue === element.category) {
+        if (inputValue == element.category_name) {
           this.$message.destroy();
           this.$message.error(`已存在${inputValue}标签名！`);
           haveLable = true;
-          return;
         }
       });
       haveLable || this.handleAddLable();
