@@ -10,7 +10,7 @@
           <li>学校：内江师范学院</li>
           <li>专业：物联网工程</li>
           <li>从业：前端工程师</li>
-          <li>技术栈：React、Vue</li>
+          <li>技术栈：React、Vue、uniapp、原生微信小程序</li>
           <li>爱好：健身、敲敲代码</li>
           <li>...</li>
         </ul>
