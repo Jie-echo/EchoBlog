@@ -15,10 +15,6 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
@@ -26,3 +22,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 采用Vue + Express + MySQl 搭建
 
 	UI：ant design vue
+
+node服务器
+cd server -> node index.js
